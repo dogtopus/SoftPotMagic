@@ -31,22 +31,6 @@
 #define __RTOTALLEFT (_calib.leftMin - _calib.leftMax)
 #define __RTOTALRIGHT (_calib.rightMin - _calib.rightMax)
 
-//static inline uint8_t __adc_to_pos(int adc, int adc_minpos, int adc_maxpos) {
-//    // max position has the largest resistance
-//    if (adc_minpos < 0 || adc_maxpos < 0 || adc == 0) {
-//        return POS_FLOAT;
-//    } else if (adc < adc_maxpos) {
-//        return POS_MAX;
-//    } else if (adc > adc_minpos) {
-//        return POS_MIN;
-//    }
-//
-//    long tmp = ((long) adc_maxpos * adc_minpos) / adc - adc_maxpos;
-//    int result = (int) map(tmp, 0, adc_minpos - adc_maxpos, POS_MIN, POS_MAX);
-//
-//    return result;
-//}
-
 // calculate relative resistance from an ADC value
 static inline int __adc_to_res(int adc, int adc_minpos, int adc_maxpos) {
     // max position has the greatest resistance
@@ -133,7 +117,6 @@ uint8_t c_SoftPotMagic::pos1(void) {
 }
 
 uint8_t c_SoftPotMagic::pos2(void) {
-    // TODO: add check for blob threshold
     if (_res.right >= 0 && _res.left >= 0 && abs(__RTOTALRIGHT - _res.right - _res.left) < _blobThreshold) {
         return POS_FLOAT;
     } else {
