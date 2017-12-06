@@ -62,6 +62,21 @@ The returned value of these functions range from 0 (`POS_MIN`) to 254
 
 Refer to the example for more information.
 
+## Application
+
+- Ribbon controller that supports 2 simultaneous voices
+- Resistive slider that supports basic gestures (pinch-in, pinch-out, two-finger
+  drag, etc.)
+- Slider controller of a [certain game][1]
+
 ## License
 
 GPLv3+
+
+## Special Thanks
+
+adzy31 for his [YouTube video][2] that makes me realize the possibility of doing
+2 position touch sensing on a SoftPot.
+
+[1]: https://en.wikipedia.org/wiki/Hatsune_Miku:_Project_DIVA_Arcade
+[2]: https://www.youtube.com/watch?v=thcqCgX51BY
