@@ -60,7 +60,7 @@ public:
 
     void setCalib(const calib_t *calib);
     void setCalib(float rTestL, float rTestR, float rSoftPot, int adcMax);
-    calib_t *getCalib(void) const;
+    const calib_t *getCalib(void) const;
     bool autoCalibLeft(void);
     bool autoCalibRight(void);
 

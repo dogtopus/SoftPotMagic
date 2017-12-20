@@ -168,7 +168,7 @@ void c_SoftPotMagic::setCalib(float rTestL, float rTestR, float rSoftPot, int ad
 }
 
 // export calibration data
-calib_t *c_SoftPotMagic::getCalib(void) const {
+const calib_t *c_SoftPotMagic::getCalib(void) const {
     return &_calib;
 }
 

@@ -32,7 +32,7 @@ void autoCalib() {
   Serial.println(F("Calibration completed"));
 
   // This prints out the calibration data
-  calib_t *c = SoftPotMagic.getCalib();
+  const calib_t *c = SoftPotMagic.getCalib();
   Serial.print(F("leftMin="));
   Serial.println(c->leftMin);
   Serial.print(F("leftMax="));
