@@ -24,8 +24,9 @@ setCalib			KEYWORD2
 getCalib			KEYWORD2
 autoCalibLeft		KEYWORD2
 autoCalibRight		KEYWORD2
-setBlobThreshold	KEYWORD2
-getBlobThreshold	KEYWORD2
+setMinGapRatio		KEYWORD2
+getMinGapRatio		KEYWORD2
+getMinGapRes		KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
