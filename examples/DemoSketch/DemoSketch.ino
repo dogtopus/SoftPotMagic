@@ -58,7 +58,10 @@ void setup() {
   // You can also manually calibrate it by specifying the resistance of your 2
   // test resistors and the total resistance of your SoftPot
   //SoftPotMagic.setCalib(10000.0, 10000.0, 10000.0, 1023);
-  SoftPotMagic.setBlobThreshold(50);
+
+  // Minimum gap ratio, any gaps detected that is bigger than specified will be
+  // treated as multitouch
+  SoftPotMagic.setMinGapRatio(0.10f);
 }
 
 void loop() {
@@ -71,11 +74,11 @@ void loop() {
   Serial.print(F(" pos2="));
   Serial.println(SoftPotMagic.pos2());
 
-  // Print blob
-  Serial.print(F("blobPos="));
-  Serial.print(SoftPotMagic.blobPos());
-  Serial.print(F(" blobSize="));
-  Serial.println(SoftPotMagic.blobSize());
+  // Print gap
+  Serial.print(F("gapCenter="));
+  Serial.print(SoftPotMagic.gapCenter());
+  Serial.print(F(" gapSize="));
+  Serial.println(SoftPotMagic.gapSize());
 
   // Print raw values returned from internal analogRead() that were used to
   // calculate the positions

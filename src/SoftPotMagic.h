@@ -49,8 +49,8 @@ public:
     uint8_t pos1(void);
     uint8_t pos2(void);
 
-    uint8_t blobPos(void);
-    uint8_t blobSize(void);
+    uint8_t gapCenter(void);
+    uint8_t gapSize(void);
 
     int leftADC(void);
     int rightADC(void);
@@ -64,18 +64,21 @@ public:
     bool autoCalibLeft(void);
     bool autoCalibRight(void);
 
-    void setBlobThreshold(int threshold);
-    int getBlobThreshold(void);
+    void setMinGapRatio(float ratio);
+    float getMinGapRatio(void);
+    int getMinGapRes(void);
 private:
     adc_value_t _adcPins;
     adc_value_t _adcValues;
     adc_value_t _res;
     calib_t _calib;
-    int _blobThreshold;
+    float _gapRatio;
+    int __gapRatioRes;
     inline int _leftADC(void);
     inline int _rightADC(void);
     inline uint8_t _pos1(void);
     inline uint8_t _pos2(void);
+    inline void _gapRatio2Res(void);
 };
 
 extern c_SoftPotMagic SoftPotMagic;

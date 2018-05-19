@@ -1,6 +1,6 @@
 # SoftPotMagic
 
-SoftPot multitouch (up to 2 positions) or blob detection library for Arduino.
+SoftPot multitouch (up to 2 positions) and gap measurement library for Arduino.
 
 ## Usage
 
@@ -52,13 +52,21 @@ You can get the pointer of the calibration data by using
 `calib_t *calib = SoftPotMagic.getCalib()` and save it. Use
 `SoftPotMagic.setCalib(calib)` to load calibration data to the library.
 
+In addition to the calibration, you need to also specify the largest size of a
+single point touch via `SoftPotMagic.setMinGapRatio()`, which is represented as
+a float number between 0.0 and 1.0. You can calculate this value based on how
+long your SoftPot is and the rough size of the thing that you use to touch the
+SoftPot (e.g. finger, stylus, wiper, etc.). You can also read it back
+using `SoftPotMagic.getMinGapRatio()` so that it can be stored in some permanent
+storage (such as EEPROM).
+
 Use `SoftPotMagic.update()` to get the latest update for the positions (it
 should be called periodically). You can then use `SoftPotMagic.pos1()` and
-`SoftPotMagic.pos2()` to get the positions. In the case of blob
-tracking/detection, use `SoftPotMagic.blobPos()` for the position of blob and
-`SoftPotMagic.blSize()` for the size of it.
+`SoftPotMagic.pos2()` to get the positions. In the case of gap
+measurement, use `SoftPotMagic.gapCenter()` for the center position of gap and
+`SoftPotMagic.gapSize()` for the distance of it.
 The returned value of these functions range from 0 (`POS_MIN`) to 254
-(`POS_MAX`), 255 or `POS_FLOAT` is returned if no touch/blob was detected.
+(`POS_MAX`), 255 or `POS_FLOAT` is returned if no touch/gap was detected.
 
 Refer to the example for more information.
 

@@ -73,7 +73,7 @@ static inline uint8_t __res_to_pos(int res, int rtotal, bool invert) {
     return pos;
 }
 
-c_SoftPotMagic::c_SoftPotMagic(void) : _blobThreshold(10) {
+c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
     _adcPins = {-1, -1};
     _res = {-1, -1};
     _adcValues = {0, 0};
@@ -111,21 +111,25 @@ inline uint8_t c_SoftPotMagic::_pos2(void) {
     return __res_to_pos(_res.right, __RTOTALRIGHT, true);
 }
 
+inline void c_SoftPotMagic::_gapRatio2Res(void) {
+    __gapRatioRes = _gapRatio * __RTOTALRIGHT;
+}
+
 // position readers for multitouch mode (0-254, 255 if no touch detected)
 uint8_t c_SoftPotMagic::pos1(void) {
     return _pos1();
 }
 
 uint8_t c_SoftPotMagic::pos2(void) {
-    if (_res.right >= 0 && _res.left >= 0 && abs(__RTOTALRIGHT - _res.right - _res.left) < _blobThreshold) {
+    if (_res.right >= 0 && _res.left >= 0 && abs(__RTOTALRIGHT - _res.right - _res.left) < __gapRatioRes) {
         return POS_FLOAT;
     } else {
         return _pos2();
     }
 }
 
-// position and size reader for single blob tracking mode
-uint8_t c_SoftPotMagic::blobPos(void) {
+// position and size reader for gap measurement mode
+uint8_t c_SoftPotMagic::gapCenter(void) {
     int p1 = _pos1();
     int p2 = _pos2();
     if (p1 != POS_FLOAT && p2 != POS_FLOAT) {
@@ -135,7 +139,7 @@ uint8_t c_SoftPotMagic::blobPos(void) {
     }
 }
 
-uint8_t c_SoftPotMagic::blobSize(void) {
+uint8_t c_SoftPotMagic::gapSize(void) {
     int p1 = _pos1();
     int p2 = _pos2();
     if (p1 != POS_FLOAT && p2 != POS_FLOAT) {
@@ -157,6 +161,7 @@ int c_SoftPotMagic::rightADC(void) {
 // import calibration data
 void c_SoftPotMagic::setCalib(const calib_t *calib) {
     memcpy((void *) &_calib, (const void *) calib, sizeof(calib_t));
+    _gapRatio2Res();
 }
 
 // manually calibrate the system with resistance of test resistors and the total resistance of the SoftPot (between pin 1 and pin 3)
@@ -165,6 +170,7 @@ void c_SoftPotMagic::setCalib(float rTestL, float rTestR, float rSoftPot, int ad
     _calib.rightMax = rTestR / (rTestR + rSoftPot) * adcMax;
     _calib.leftMin = adcMax;
     _calib.rightMin = adcMax;
+    _gapRatio2Res();
 }
 
 // export calibration data
@@ -181,14 +187,21 @@ bool c_SoftPotMagic::autoCalibRight(void) {
     __AUTO_CALIB(_calib.leftMax, _calib.rightMin);
 }
 
-
-// blob threshold in unit of relative resistance
-void c_SoftPotMagic::setBlobThreshold(int threshold) {
-    _blobThreshold = threshold;
+// Minimum gap ratio (between 0 and 1)
+void c_SoftPotMagic::setMinGapRatio(float ratio) {
+    if (ratio >= 0.0f && ratio <= 1.0f) {
+        _gapRatio = ratio;
+        _gapRatio2Res();
+    }
 }
 
-int c_SoftPotMagic::getBlobThreshold(void) {
-    return _blobThreshold;
+float c_SoftPotMagic::getMinGapRatio(void) {
+    return _gapRatio;
+}
+
+// For debug purpose
+int c_SoftPotMagic::getMinGapRes(void) {
+    return __gapRatioRes;
 }
 
 c_SoftPotMagic SoftPotMagic;
