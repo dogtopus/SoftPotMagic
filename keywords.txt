@@ -6,35 +6,35 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-SoftPotMagic		KEYWORD1
-c_SoftPotMagic		KEYWORD1
-calib_t				KEYWORD1
+SoftPotMagic	KEYWORD1
+c_SoftPotMagic	KEYWORD1
+calib_t	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-pos1				KEYWORD2
-pos2				KEYWORD2
-blobPos				KEYWORD2
-blobSize			KEYWORD2
-leftADC				KEYWORD2
-rightADC			KEYWORD2
-setCalib			KEYWORD2
-getCalib			KEYWORD2
-autoCalibLeft		KEYWORD2
-autoCalibRight		KEYWORD2
-setMinGapRatio		KEYWORD2
-getMinGapRatio		KEYWORD2
-getMinGapRes		KEYWORD2
+pos1	KEYWORD2
+pos2	KEYWORD2
+blobPos	KEYWORD2
+blobSize	KEYWORD2
+leftADC	KEYWORD2
+rightADC	KEYWORD2
+setCalib	KEYWORD2
+getCalib	KEYWORD2
+autoCalibLeft	KEYWORD2
+autoCalibRight	KEYWORD2
+setMinGapRatio	KEYWORD2
+getMinGapRatio	KEYWORD2
+getMinGapRes	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-POS_MIN				LITERAL1
-POS_MAX				LITERAL1
-POS_FLOAT			LITERAL1
-RES_INF				LITERAL1
-RES_OVF				LITERAL1
-RES_UNF				LITERAL1
+POS_MIN	LITERAL1
+POS_MAX	LITERAL1
+POS_FLOAT	LITERAL1
+RES_INF	LITERAL1
+RES_OVF	LITERAL1
+RES_UNF	LITERAL1
