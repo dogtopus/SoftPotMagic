@@ -80,17 +80,18 @@ c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
     _calib = {-1, -1, -1, -1};
 }
 
-void c_SoftPotMagic::begin(int adcLeft, int adcRight) {
+void c_SoftPotMagic::begin(int adcLeft, int adcRight, int (*adcf)(int)) {
     _adcPins.left = adcLeft;
     _adcPins.right = adcRight;
+    _adcf = adcf;
 }
 
 inline int c_SoftPotMagic::_leftADC(void) {
-    return analogRead(_adcPins.left);
+    return _adcf(_adcPins.left);
 }
 
 inline int c_SoftPotMagic::_rightADC(void) {
-    return analogRead(_adcPins.right);
+    return _adcf(_adcPins.right);
 }
 
 // update/scan values
