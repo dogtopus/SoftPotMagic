@@ -16,7 +16,7 @@ ResponsiveAnalogRead RAR(ADC_RIGHT, true);
 
 // wrapper function for ResponsiveAnalogRead that mimicks a real analogRead
 // function
-int respAnalogRead(int pin) {
+int respAnalogRead(uint8_t pin) {
     switch (pin) {
         case ADC_LEFT:
             return RAL.getValue();
@@ -24,6 +24,8 @@ int respAnalogRead(int pin) {
         case ADC_RIGHT:
             return RAR.getValue();
             break;
+        default:
+            return analogRead(pin);
     }
 }
 
