@@ -43,7 +43,7 @@ typedef struct {
 class c_SoftPotMagic {
 public:
     c_SoftPotMagic(void);
-    void begin(int adcLeft, int adcRight, int (*adcf)(int) = analogRead);
+    void begin(int adcLeft, int adcRight, int (*adcf)(uint8_t) = analogRead);
     void update(void);
 
     uint8_t pos1(void);
@@ -74,7 +74,7 @@ private:
     calib_t _calib;
     float _gapRatio;
     int __gapRatioRes;
-    int (*_adcf)(int pin);
+    int (*_adcf)(uint8_t pin);
     inline int _leftADC(void);
     inline int _rightADC(void);
     inline uint8_t _pos1(void);

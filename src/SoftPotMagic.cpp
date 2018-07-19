@@ -80,7 +80,7 @@ c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
     _calib = {-1, -1, -1, -1};
 }
 
-void c_SoftPotMagic::begin(int adcLeft, int adcRight, int (*adcf)(int)) {
+void c_SoftPotMagic::begin(int adcLeft, int adcRight, int (*adcf)(uint8_t)) {
     _adcPins.left = adcLeft;
     _adcPins.right = adcRight;
     _adcf = adcf;
