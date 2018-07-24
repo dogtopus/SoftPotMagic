@@ -39,7 +39,7 @@ void setup() {
 
   // Do a manual calibration with 10kOhm test resistors and 10kOhm SoftPot (the
   // typical setup)
-  SoftPotMagic.setCalib(10000.0, 10000.0, 10000.0, 1023);
+  SoftPotMagic.setCalib(10000.0, 10000.0, 10000.0, 1023, 0);
 
   // Minimum gap ratio, any gaps detected that is bigger than specified will be
   // treated as multitouch

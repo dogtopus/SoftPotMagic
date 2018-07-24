@@ -33,6 +33,7 @@ typedef struct {
     int leftMax;
     int rightMin;
     int rightMax;
+    int zeroLevel;
 } calib_t;
 
 typedef struct {
@@ -59,10 +60,11 @@ public:
     //float rightMillimeter(void);
 
     void setCalib(const calib_t *calib);
-    void setCalib(float rTestL, float rTestR, float rSoftPot, int adcMax);
+    void setCalib(float rTestL, float rTestR, float rSoftPot, int adcMax, int adcZero);
     const calib_t *getCalib(void) const;
     bool autoCalibLeft(void);
     bool autoCalibRight(void);
+    bool autoCalibZero(bool start = true);
 
     void setMinGapRatio(float ratio);
     float getMinGapRatio(void);

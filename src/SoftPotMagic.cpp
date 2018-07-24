@@ -32,9 +32,9 @@
 #define __RTOTALRIGHT (_calib.rightMin - _calib.rightMax)
 
 // calculate relative resistance from an ADC value
-static inline int __adc_to_res(int adc, int adc_minpos, int adc_maxpos) {
+static inline int __adc_to_res(int adc, int adc_minpos, int adc_maxpos, int zero) {
     // max position has the greatest resistance
-    if (adc_minpos <= 0 || adc_maxpos <= 0 || adc == 0) {
+    if (adc_minpos <= 0 || adc_maxpos <= 0 || adc < zero) {
         // resistance is infinity (i.e. circuit is open, no touch was detected)
         // or cannot be calculated due to lack of calibration data
         return RES_INF;
@@ -77,7 +77,7 @@ c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
     _adcPins = {-1, -1};
     _res = {-1, -1};
     _adcValues = {0, 0};
-    _calib = {-1, -1, -1, -1};
+    _calib = {-1, -1, -1, -1, 0};
 }
 
 void c_SoftPotMagic::begin(int adcLeft, int adcRight, int (*adcf)(uint8_t)) {
@@ -100,8 +100,8 @@ void c_SoftPotMagic::update(void) {
     _adcValues.left = _leftADC();
     _adcValues.right = _rightADC();
     // calculate relative resistance
-    _res.left = __adc_to_res(_adcValues.left, _calib.leftMin, _calib.leftMax);
-    _res.right = __adc_to_res(_adcValues.right, _calib.rightMin, _calib.rightMax);
+    _res.left = __adc_to_res(_adcValues.left, _calib.leftMin, _calib.leftMax, _calib.zeroLevel);
+    _res.right = __adc_to_res(_adcValues.right, _calib.rightMin, _calib.rightMax, _calib.zeroLevel);
 }
 
 inline uint8_t c_SoftPotMagic::_pos1(void) {
@@ -166,11 +166,12 @@ void c_SoftPotMagic::setCalib(const calib_t *calib) {
 }
 
 // manually calibrate the system with resistance of test resistors and the total resistance of the SoftPot (between pin 1 and pin 3)
-void c_SoftPotMagic::setCalib(float rTestL, float rTestR, float rSoftPot, int adcMax) {
+void c_SoftPotMagic::setCalib(float rTestL, float rTestR, float rSoftPot, int adcMax, int adcZero) {
     _calib.leftMax = rTestL / (rTestL + rSoftPot) * adcMax;
     _calib.rightMax = rTestR / (rTestR + rSoftPot) * adcMax;
     _calib.leftMin = adcMax;
     _calib.rightMin = adcMax;
+    _calib.zeroLevel = adcZero;
     _gapRatio2Res();
 }
 
@@ -186,6 +187,23 @@ bool c_SoftPotMagic::autoCalibLeft(void) {
 
 bool c_SoftPotMagic::autoCalibRight(void) {
     __AUTO_CALIB(_calib.leftMax, _calib.rightMin);
+}
+
+bool c_SoftPotMagic::autoCalibZero(bool start) {
+    static int max = 0;
+
+    if (start) max = 0;
+
+    int ladc = _leftADC();
+    int radc = _rightADC();
+    if (ladc > _calib.leftMin || radc > _calib.rightMin) {
+        // within the input range or have a really noisy zero
+        return false;
+    }
+    if (ladc > max) max = ladc;
+    if (radc > max) max = radc;
+    _calib.zeroLevel = max * 2;
+    return true;
 }
 
 // Minimum gap ratio (between 0 and 1)

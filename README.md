@@ -51,6 +51,12 @@ The calibration data can be backed up on a persistent storage (e.g. EEPROM).
 You can get the pointer of the calibration data by using
 `calib_t *calib = SoftPotMagic.getCalib()` and save it. Use
 `SoftPotMagic.setCalib(calib)` to load calibration data to the library.
+If your SoftPot does not report `POS_FLOAT` when not touched, you might also
+want to adjust the ADC zero level by using the `SoftPotMagic.autoCalibZero()`
+when not touching the SoftPot. The value obtained by this call will be stored
+in the calibration data and can be fetched using `getCalib()`. You can also then
+call `SoftPotMagic.autoCalibZero(false)` multiple times to get a maximum value
+of ADC readings where it should be zero.
 
 In addition to the calibration, you need to also specify the largest size of a
 single point touch via `SoftPotMagic.setMinGapRatio()`, which is represented as
