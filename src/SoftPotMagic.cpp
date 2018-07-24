@@ -196,7 +196,7 @@ bool c_SoftPotMagic::autoCalibZero(bool start) {
 
     int ladc = _leftADC();
     int radc = _rightADC();
-    if (ladc > _calib.leftMin || radc > _calib.rightMin) {
+    if (ladc >= _calib.leftMin || radc >= _calib.rightMin || ladc <= _calib.leftMax || radc <= _calib.rightMax) {
         // within the input range or have a really noisy zero
         return false;
     }
