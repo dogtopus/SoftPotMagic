@@ -18,16 +18,6 @@
 
 #include "SoftPotMagic.h"
 
-#define __AUTO_CALIB(ladc_map, radc_map) \
-    int ladc = _leftADC(); \
-    int radc = _rightADC(); \
-    if (ladc == 0 || radc == 0) { \
-        return false; \
-    } \
-    ladc_map = ladc; \
-    radc_map = radc; \
-    return true;
-
 #define __RTOTALLEFT (_calib.leftMin - _calib.leftMax)
 #define __RTOTALRIGHT (_calib.rightMin - _calib.rightMax)
 
@@ -116,6 +106,17 @@ inline void c_SoftPotMagic::_gapRatio2Res(void) {
     __gapRatioRes = _gapRatio * __RTOTALRIGHT;
 }
 
+inline bool c_SoftPotMagic::_autoCalib(int &ladcMap, int &radcMap) {
+    int ladc = _leftADC();
+    int radc = _rightADC();
+    if (ladc == 0 || radc == 0) {
+        return false;
+    }
+    ladcMap = ladc;
+    radcMap = radc;
+    return true;
+}
+
 // position readers for multitouch mode (0-254, 255 if no touch detected)
 uint8_t c_SoftPotMagic::pos1(void) {
     return _pos1();
@@ -182,11 +183,11 @@ const calib_t *c_SoftPotMagic::getCalib(void) const {
 
 // auto calibration for both sides
 bool c_SoftPotMagic::autoCalibLeft(void) {
-    __AUTO_CALIB(_calib.leftMin, _calib.rightMax);
+    return _autoCalib(_calib.leftMin, _calib.rightMax);
 }
 
 bool c_SoftPotMagic::autoCalibRight(void) {
-    __AUTO_CALIB(_calib.leftMax, _calib.rightMin);
+    return _autoCalib(_calib.leftMax, _calib.rightMin);
 }
 
 bool c_SoftPotMagic::autoCalibZero(bool start) {

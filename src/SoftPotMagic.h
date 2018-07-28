@@ -20,13 +20,13 @@
 
 #include "Arduino.h"
 
-#define POS_MIN 0
-#define POS_MAX 254
-#define POS_FLOAT 255
+const int POS_MIN = 0;
+const int POS_MAX = 254;
+const int POS_FLOAT = 255;
 
-#define RES_INF -1
-#define RES_OVF -2
-#define RES_UNF -3
+const int RES_INF = -1;
+const int RES_OVF = -2;
+const int RES_UNF = -3;
 
 typedef struct {
     int leftMin;
@@ -79,6 +79,7 @@ private:
     int (*_adcf)(uint8_t pin);
     inline int _leftADC(void);
     inline int _rightADC(void);
+    inline bool _autoCalib(int &ladcMap, int &radcMap);
     inline uint8_t _pos1(void);
     inline uint8_t _pos2(void);
     inline void _gapRatio2Res(void);
