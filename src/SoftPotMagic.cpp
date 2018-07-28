@@ -64,7 +64,8 @@ static inline uint8_t __res_to_pos(int res, int rtotal, bool invert) {
 }
 
 c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
-    _adcPins = {-1, -1};
+    _adcLeft = 0;
+    _adcRight = 0;
     _res = {-1, -1};
     _adcValues = {0, 0};
     _calib = {-1, -1, -1, -1, 0};
