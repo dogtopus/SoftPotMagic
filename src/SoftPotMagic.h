@@ -70,10 +70,10 @@ public:
     float getMinGapRatio(void);
     int getMinGapRes(void);
 private:
-    adc_value_t _adcPins;
     adc_value_t _adcValues;
     adc_value_t _res;
     calib_t _calib;
+    uint8_t _adcLeft, _adcRight;
     float _gapRatio;
     int __gapRatioRes;
     int (*_adcf)(uint8_t pin);

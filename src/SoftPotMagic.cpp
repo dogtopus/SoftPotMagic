@@ -71,17 +71,17 @@ c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
 }
 
 void c_SoftPotMagic::begin(int adcLeft, int adcRight, int (*adcf)(uint8_t)) {
-    _adcPins.left = adcLeft;
-    _adcPins.right = adcRight;
+    _adcLeft = adcLeft;
+    _adcRight = adcRight;
     _adcf = adcf;
 }
 
 inline int c_SoftPotMagic::_leftADC(void) {
-    return _adcf(_adcPins.left);
+    return _adcf(_adcLeft);
 }
 
 inline int c_SoftPotMagic::_rightADC(void) {
-    return _adcf(_adcPins.right);
+    return _adcf(_adcRight);
 }
 
 // update/scan values
