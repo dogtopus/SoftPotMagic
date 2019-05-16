@@ -63,7 +63,7 @@ static inline uint8_t __res_to_pos(int res, int rtotal, bool invert) {
     return pos;
 }
 
-c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(6554), _adcLeft(0), _adcRight(0) {
+c_SoftPotMagic::c_SoftPotMagic(void) : _adcLeft(0), _adcRight(0), _gapRatio(6554) {
     _res = {-1, -1};
     _adcValues = {0, 0};
     _calib = {-1, -1, -1, -1, 0};
@@ -189,19 +189,19 @@ bool c_SoftPotMagic::autoCalibRight(void) {
     return _autoCalib(_calib.leftMax, _calib.rightMin);
 }
 
-bool c_SoftPotMagic::autoCalibZero(bool start) {
-    static int max = 0;
+bool c_SoftPotMagic::autoCalibZero(uint16_t samples) {
+    int max = 0;
 
-    if (start) max = 0;
-
-    int ladc = _leftADC();
-    int radc = _rightADC();
-    if (ladc >= _calib.leftMin || radc >= _calib.rightMin) {
-        // within the input range or have a really noisy zero
-        return false;
+    for (uint16_t i=0; i<samples; i++) {
+        int ladc = _leftADC();
+        int radc = _rightADC();
+        if (ladc >= _calib.leftMin || radc >= _calib.rightMin) {
+            // within the input range or have a really noisy zero
+            return false;
+        }
+        if (ladc > max) max = ladc;
+        if (radc > max) max = radc;
     }
-    if (ladc > max) max = ladc;
-    if (radc > max) max = radc;
     _calib.zeroLevel = max * 2;
     return true;
 }

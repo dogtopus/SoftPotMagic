@@ -64,7 +64,7 @@ public:
     const calib_t *getCalib(void) const;
     bool autoCalibLeft(void);
     bool autoCalibRight(void);
-    bool autoCalibZero(bool start = true);
+    bool autoCalibZero(uint16_t samples=1000);
 
     void setMinGapRatio(float ratio);
     float getMinGapRatio(void);
