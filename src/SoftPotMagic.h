@@ -68,13 +68,15 @@ public:
 
     void setMinGapRatio(float ratio);
     float getMinGapRatio(void);
+    void setMinGapRatioInt(uint16_t ratio);
+    uint16_t getMinGapRatioInt(void);
     int getMinGapRes(void);
 private:
     adc_value_t _adcValues;
     adc_value_t _res;
     calib_t _calib;
     uint8_t _adcLeft, _adcRight;
-    float _gapRatio;
+    uint16_t _gapRatio;
     int __gapRatioRes;
     int (*_adcf)(uint8_t pin);
     inline int _leftADC(void);

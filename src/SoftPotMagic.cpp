@@ -63,9 +63,7 @@ static inline uint8_t __res_to_pos(int res, int rtotal, bool invert) {
     return pos;
 }
 
-c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(0.10f) {
-    _adcLeft = 0;
-    _adcRight = 0;
+c_SoftPotMagic::c_SoftPotMagic(void) : _gapRatio(6554), _adcLeft(0), _adcRight(0) {
     _res = {-1, -1};
     _adcValues = {0, 0};
     _calib = {-1, -1, -1, -1, 0};
@@ -104,7 +102,7 @@ inline uint8_t c_SoftPotMagic::_pos2(void) {
 }
 
 inline void c_SoftPotMagic::_gapRatio2Res(void) {
-    __gapRatioRes = _gapRatio * __RTOTALRIGHT;
+    __gapRatioRes = static_cast<uint32_t>(_gapRatio) * __RTOTALRIGHT / UINT16_MAX;
 }
 
 inline bool c_SoftPotMagic::_autoCalib(int &ladcMap, int &radcMap) {
@@ -211,12 +209,21 @@ bool c_SoftPotMagic::autoCalibZero(bool start) {
 // Minimum gap ratio (between 0 and 1)
 void c_SoftPotMagic::setMinGapRatio(float ratio) {
     if (ratio >= 0.0f && ratio <= 1.0f) {
-        _gapRatio = ratio;
+        _gapRatio = UINT16_MAX * ratio;
         _gapRatio2Res();
     }
 }
 
+void c_SoftPotMagic::setMinGapRatioInt(uint16_t ratio) {
+    _gapRatio = ratio;
+    _gapRatio2Res();
+}
+
 float c_SoftPotMagic::getMinGapRatio(void) {
+    return static_cast<float>(_gapRatio) / UINT16_MAX;
+}
+
+uint16_t c_SoftPotMagic::getMinGapRatioInt(void) {
     return _gapRatio;
 }
 
