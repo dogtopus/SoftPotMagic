@@ -26,6 +26,8 @@ autoCalibLeft	KEYWORD2
 autoCalibRight	KEYWORD2
 setMinGapRatio	KEYWORD2
 getMinGapRatio	KEYWORD2
+setMinGapRatioInt	KEYWORD2
+getMinGapRatioInt	KEYWORD2
 getMinGapRes	KEYWORD2
 
 #######################################
