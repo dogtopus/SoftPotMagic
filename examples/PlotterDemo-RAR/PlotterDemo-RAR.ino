@@ -8,8 +8,8 @@
 const int INTERVAL = 5;
 
 // ADC pins used (A0 for left side and A1 for right side)
-const int ADC_LEFT = 0;
-const int ADC_RIGHT = 1;
+const int ADC_LEFT = A0;
+const int ADC_RIGHT = A1;
 
 ResponsiveAnalogRead RAL(ADC_LEFT, true);
 ResponsiveAnalogRead RAR(ADC_RIGHT, true);
@@ -19,9 +19,11 @@ ResponsiveAnalogRead RAR(ADC_RIGHT, true);
 int respAnalogRead(uint8_t pin) {
     switch (pin) {
         case ADC_LEFT:
+            RAL.update();
             return RAL.getValue();
             break;
         case ADC_RIGHT:
+            RAR.update();
             return RAR.getValue();
             break;
         default:
@@ -32,7 +34,6 @@ int respAnalogRead(uint8_t pin) {
 void setup() {
   // Set the analog pins that you used to connect to the SoftPot (in this case,
   // A0 and A1)
-  
   SoftPotMagic.begin(ADC_LEFT, ADC_RIGHT, respAnalogRead);
 
   Serial.begin(115200);
@@ -41,16 +42,18 @@ void setup() {
   // typical setup)
   SoftPotMagic.setCalib(10000.0, 10000.0, 10000.0, 1023, 0);
 
+  // Find touch release threshold (might be necessary on some boards)
+  SoftPotMagic.autoCalibZero();
+
   // Minimum gap ratio, any gaps detected that is bigger than specified will be
   // treated as multitouch
   SoftPotMagic.setMinGapRatio(0.10f);
 
+  // Alternatively use this if you don't like float
+  //SoftPotMagic.setMinGapRatioInt(UINT16_MAX / 10);
 }
 
 void loop() {
-  // Update the adc value for ResponsiveAnalogRead first
-  RAL.update();
-  RAR.update();
   // Make sure to run this function to refresh the value
   SoftPotMagic.update();
 

@@ -7,8 +7,8 @@
 const int INTERVAL = 5;
 
 // ADC pins used (A0 for left side and A1 for right side)
-const int ADC_LEFT = 0;
-const int ADC_RIGHT = 1;
+const int ADC_LEFT = A0;
+const int ADC_RIGHT = A1;
 
 
 void setup() {
@@ -22,10 +22,15 @@ void setup() {
   // typical setup)
   SoftPotMagic.setCalib(10000.0, 10000.0, 10000.0, 1023, 0);
 
+  // Find touch release threshold (might be necessary on some boards)
+  SoftPotMagic.autoCalibZero();
+
   // Minimum gap ratio, any gaps detected that is bigger than specified will be
   // treated as multitouch
   SoftPotMagic.setMinGapRatio(0.10f);
 
+  // Alternatively use this if you don't like float
+  //SoftPotMagic.setMinGapRatioInt(UINT16_MAX / 10);
 }
 
 void loop() {

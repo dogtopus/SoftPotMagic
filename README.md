@@ -85,7 +85,7 @@ Refer to the example for more information.
 
 ## License
 
-GPLv3+
+LGPLv3+
 
 ## Special Thanks
 

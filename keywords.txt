@@ -16,8 +16,8 @@ calib_t	KEYWORD1
 
 pos1	KEYWORD2
 pos2	KEYWORD2
-blobPos	KEYWORD2
-blobSize	KEYWORD2
+gapCenter	KEYWORD2
+gapSize	KEYWORD2
 leftADC	KEYWORD2
 rightADC	KEYWORD2
 setCalib	KEYWORD2

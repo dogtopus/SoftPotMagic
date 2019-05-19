@@ -6,8 +6,8 @@
 
 
 // ADC pins used (A0 for left side and A1 for right side)
-const int ADC_LEFT = 0;
-const int ADC_RIGHT = 1;
+const int ADC_LEFT = A0;
+const int ADC_RIGHT = A1;
 
 
 void autoCalib() {
@@ -29,6 +29,10 @@ void autoCalib() {
     if (SoftPotMagic.autoCalibRight()) break;
   }
 
+  // Find touch release threshold (might be necessary on some boards)
+  Serial.println(F("Release all fingers and press Enter..."));
+  PAUSE();
+  SoftPotMagic.autoCalibZero();
   Serial.println(F("Calibration completed"));
 
   // This prints out the calibration data
