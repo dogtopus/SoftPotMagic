@@ -8,7 +8,7 @@
 // calculate relative resistance from an ADC value
 static inline int __adc_to_res(int adc, int adc_minpos, int adc_maxpos, int zero) {
     // max position has the greatest resistance
-    if (adc_minpos <= 0 || adc_maxpos <= 0 || adc < zero) {
+    if (adc_minpos <= 0 || adc_maxpos <= 0 || adc <= zero) {
         // resistance is infinity (i.e. circuit is open, no touch was detected)
         // or cannot be calculated due to lack of calibration data
         return RES_INF;
@@ -86,7 +86,8 @@ inline uint8_t c_SoftPotMagic::_pos2(void) {
 }
 
 inline void c_SoftPotMagic::_gapRatio2Res(void) {
-    __gapRatioRes = static_cast<uint32_t>(_gapRatio) * __RTOTALRIGHT / UINT16_MAX;
+    auto res = static_cast<uint32_t>(_gapRatio) * __RTOTALRIGHT / UINT16_MAX;
+    __gapRatioRes = static_cast<int>(res);
 }
 
 inline bool c_SoftPotMagic::_autoCalib(int &ladcMap, int &radcMap) {
