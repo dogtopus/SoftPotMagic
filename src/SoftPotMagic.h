@@ -12,6 +12,8 @@ const int RES_INF = -1;
 const int RES_OVF = -2;
 const int RES_UNF = -3;
 
+// Min and max are in terms of resistances or positions (not ADC values or voltages) so min values are bigger than max
+// Also right touch position is reversed (right < left) compare to left touch position (left > right)
 typedef struct {
     int leftMin;
     int leftMax;

@@ -72,9 +72,15 @@ void c_SoftPotMagic::update(void) {
     // save ADC values just in caser the user needs them
     _adcValues.left = _leftADC();
     _adcValues.right = _rightADC();
-    // calculate relative resistance
-    _res.left = __adc_to_res(_adcValues.left, _calib.leftMin, _calib.leftMax, _calib.zeroLevel);
-    _res.right = __adc_to_res(_adcValues.right, _calib.rightMin, _calib.rightMax, _calib.zeroLevel);
+    if (_adcValues.left < _calib.leftMax && _adcValues.right < _calib.rightMax) {
+        // filter out impossible situation (both readings are higher than upper resistance bound/lower than ADC value lower bound)
+        _res.left = POS_FLOAT;
+        _res.right = POS_FLOAT;
+    } else {
+        // calculate relative resistance
+        _res.left = __adc_to_res(_adcValues.left, _calib.leftMin, _calib.leftMax, _calib.zeroLevel);
+        _res.right = __adc_to_res(_adcValues.right, _calib.rightMin, _calib.rightMax, _calib.zeroLevel);
+    }
 }
 
 inline uint8_t c_SoftPotMagic::_pos1(void) {
